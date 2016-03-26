@@ -81,28 +81,62 @@ void PQ_change(int *PQ, int PQsize, int decinc){
 }
 */
 
-void draw(CAR thecars[], char themap[dimension][dimension][2], int dimension, int numCars){
-    int i, j, k, m;
+void draw(CAR thecars[], char themap[dimension+3][dimension+3][2], int dimension, int numCars){
+    int i, j;
 
+		//first way yo initialize
+		//actual empty board
     for(i = 0; i<= dimension+1; i++){
         for(j = 0; j <= dimension+1; j++){
-            //INITIALIZE BOARD
-						if(i == 0 || i == dimension+1){
-							if (j == 0) strcpy(themap[i][j], "+");
-							else if(j == dimension+1) strcpy(themap[i][j], "+\n");
-							else  strcpy(themap[i][j], "-");
+      			if(i == 0 || i == dimension+1){
+							if (j == 0) strcpy(themap[j][i], "+");
+							else if(j == dimension+1) strcpy(themap[j][i], "+");
+							else  strcpy(themap[j][i], "-");
             }
-            else if(j == 0)  strcpy(themap[i][j], "|");
-						else if(j == dimension+1)  strcpy(themap[i][j], "|\n");
-						else  strcpy(themap[i][j],".");
-						printf("%s", themap[i][j]);
-						//END OF INITIALIZATION
-        }
-
+            else if(j == 0)		strcpy(themap[j][i], "|");
+						else if(j == dimension+1)	strcpy(themap[j][i], "|");
+						else strcpy(themap[j][i],".");
+				}
     }
-		for(k = 0; k <= dimension+1; k++)	for(m = 0; m <= dimension+1; m++)		printf("%s", themap[k][m]);
 
+	/*//another way	for(i = 0; i<= dimension+1; i++){
+        for(j = 0; j <= dimension+1; j++){
+						strcpy(themap[i][j], ".");
+				}
+		}
+		for(i = 0; i<dimension+2; i++){
+			strcpy(themap[i][0],"-");
+			if(i == 0 || i == dimension+1) strcpy(themap[0][0],"+");
+		}
+		for(i = 0; i<dimension+2; i++){
+			strcpy(themap[i][dimension+1],"-");
+			if(i == 0 || i == dimension+1) strcpy(themap[0][0],"+");
+		}
+		for(i = 1; i<dimension+1; i++){
+			strcpy(themap[0][i],"|");
+		}
+		for(i = 1; i<dimension+1; i++){
+			strcpy(themap[dimension+1][i],"|");
+		}*/
 
+//for spaces and new line
+		for(i = 0; i<dimension+3; i++){
+			strcpy(themap[dimension+2][i],"\n");
+		}
+		for(i = 0; i<dimension+3; i++){
+					strcpy(themap[i][dimension+2]," ");
+					if(i==dimension+2)		strcpy(themap[i][dimension+2],"\n");
+		}
+
+		//printing
+		for(i = 0; i<= dimension+2; i++){
+				for(j = 0; j <= dimension+2; j++){
+						printf("%s", themap[j][i]);
+						//printf("%d%d %s  ", j,i, themap[j][i]);
+						//scanf("%d", &k);
+
+				}
+		}
 /*    for(k = 0; k<numCars; k++){
         if(thecars[k].x == j+1 && thecars[k].y == i+1){
           for(m = 0; m<thecars[k].width ; m++)
@@ -124,9 +158,9 @@ void readInput(){
   if(fp==NULL)	return;
 
   dimension = readChar(fp) - '0';
-  char themap[dimension+2][dimension+2][2];
-	//int try[5][5];
-	CAR thecars[(dimension*dimension)/2];
+  char themap[dimension+3][dimension+3][2];
+
+		CAR thecars[(dimension*dimension)/2];
   int i, numCars, j;
   for(i = 1; (!feof(fp)) ; i++){
         thecars[i].x = readChar(fp) - '0';
