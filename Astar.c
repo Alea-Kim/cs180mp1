@@ -27,13 +27,20 @@ int main(){
 	return 0;
 }
 
-void draw_board(CAR thecars[], char themap[dimension+3][dimension+3][5], int numCars){
-		int i, j;
-		init_board(themap);
-		draw_cars(thecars, themap, numCars);
+/*     _____________
+______/GAME PROPER  \_______________________________________________________________________________________________________*/
 
-		//print the board
-		for(i = 0; i<= dimension+2; i++) for(j = 0; j <= dimension+2; j++)	printf("%s", themap[j][i]);
+
+
+/*     ___________________
+______/ DRAWING FUNCTIONS \_______________________________________________________________________________________________________*/
+void draw_board(CAR thecars[], char themap[dimension+3][dimension+3][5], int numCars){
+	int i, j;
+	init_board(themap);
+	draw_cars(thecars, themap, numCars);
+
+	//print the board
+	for(i = 0; i<= dimension+2; i++) for(j = 0; j <= dimension+2; j++)	printf("%s", themap[j][i]);
 }
 
 void init_board(char themap[dimension+3][dimension+3][5]){
@@ -78,28 +85,29 @@ void draw_cars(CAR thecars[], char themap[dimension+3][dimension+3][5], int numC
 	}
 }
 
+/*     ___________________
+______/ FILE READING      \_______________________________________________________________________________________________________*/
+
 void readInput(){
-  FILE *fp;
-  fp = fopen("input.txt", "r");
-  if(fp==NULL)	return;
-  dimension = readChar(fp) - '0';
-  char themap[dimension+3][dimension+3][5];
-  CAR thecars[(dimension*dimension)/2];
-  int i, numCars, j;
-  for(i = 1; (!feof(fp)) ; i++){
+    FILE *fp;
+    fp = fopen("input.txt", "r");
+    if(fp==NULL)	return;
+    dimension = readChar(fp) - '0';
+    char themap[dimension+3][dimension+3][5];
+    CAR thecars[(dimension*dimension)/2];
+    int i, numCars, j;
+    for(i = 1; (!feof(fp)) ; i++){
         thecars[i].x = (readChar(fp) - '0') + 1;
         thecars[i].y = (readChar(fp) - '0') + 1;
         thecars[i].dir = readChar(fp);
         thecars[i].width = readChar(fp) - '0';
         if((numCars = fgetc(fp)) == EOF) numCars = i;
-  }
-  draw_board(thecars, themap, numCars);
+    }
+    draw_board(thecars, themap, numCars);
 }
 
 char readChar(FILE *fp){
-  char a = fgetc(fp);
-  if (isspace(a)){
-      a = fgetc(fp);
-  }
-  return a;
+    char a = fgetc(fp);
+    if (isspace(a))	a = fgetc(fp);
+    return a;
 }
