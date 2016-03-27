@@ -13,31 +13,47 @@ STATE allocate_map(STATE node){
 void init(STATE node){
 	node.g = 0;
 	node.h = 0;
-}
-
-int get_h(STATE node){
-	return node.h;
+	node.f = node.g+node.h;
 }
 
 void addCost(STATE node){
 	node.g += 1;
 }
 
-int get_g(STATE node){
+int h(STATE node){
+	return node.h;
+}
+
+int g(STATE node){
 	return node.g;
 }
 
-//ALL ABOUT THE LIST/MOVE
-/*void addmove(STATE move){
-	move = (struct States *) realloc(sizeof(STATE)*listCtr, move);	//need to allocate dynamically
-	move[Ctr];
-	listCtr++;
-
-
+int f(STATE node){
+	return g(node)+h(node);
 }
-*/
-/*     ___________________
-______/ DRAWING FUNCTIONS \_______________________________________________________________________________________________________*/
+
+//ALL ABOUT THE LIST/MOVE
+void addmove(STATE newmove){
+	if(listCtr == 0) move = (struct States *) realloc(move, sizeof(STATE));	//need to allocate dynamically
+	else move = (struct States *) realloc(move, sizeof(STATE)*listCtr);	//need to allocate dynamically
+	move[listCtr] = newmove;
+	listCtr++;
+}
+
+STATE get_move_lowF(){
+	int i, lowCost = f(move[0]);
+	STATE lowNode = move[0];
+	for(i = 1; i < listCtr-1; i++){
+		if (f(move[i]) < lowCost){
+			lowCost = f(move[i]);
+			lowNode = move[i];
+		}
+	}
+	return lowNode;
+}
+
+/*     ____________________________________
+______/ DRAWING FUNCTIONS  AND FILE READING\_______________________________________________________________________________________________________*/
 void draw(CAR thecars[], char ** themap){
 	int i, j;
 
@@ -68,7 +84,6 @@ void init_board(char **themap){
 				if(i==dim+2)  themap[i][dim+2] = '\n';
 	}
 }
-
 void draw_cars(CAR thecars[], char ** themap){
 	int i, j;
 	//exit
@@ -88,10 +103,6 @@ void draw_cars(CAR thecars[], char ** themap){
 		}
 	}
 }
-
-/*     ___________________
-______/ FILE READING      \_______________________________________________________________________________________________________*/
-
 char readChar(FILE *fp){
     char a = fgetc(fp);
     if (isspace(a))	a = fgetc(fp);

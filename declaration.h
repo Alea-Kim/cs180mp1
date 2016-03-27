@@ -23,7 +23,7 @@ struct States{							//Structures for the Nodes/Cars
 	struct States* parent, *child;
 };
 typedef struct States STATE;
-
+STATE *move;							//creates nodes for STATE
 
 //FUNCTION PROTOTYPES
 void draw(CAR [], char **);       //Prints the current set-up/condition of the cars
@@ -33,8 +33,23 @@ char readChar(FILE *);
 
 STATE allocate_map(STATE node);
 void init(STATE node);
-void set_h(STATE node);
-int get_h(STATE node);
+int h(STATE node);
 void addCost(STATE node);
-int get_g(STATE node);
+int g(STATE node);
+void addmove(STATE newmove);
+STATE get_move_lowF();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #endif
