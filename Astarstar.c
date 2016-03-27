@@ -6,7 +6,7 @@
 
 int dim, cntMV, numCars; //+3 for the borders and the newline "\n"
 
-struct Node{							//Structures for the Nodes/Cars
+struct Node{							//Structures for the Cars
 	int x;
 	int y;
 	char dir;
@@ -17,7 +17,7 @@ struct Node{							//Structures for the Nodes/Cars
 typedef struct Node CAR;
 
 struct States{							//Structures for the Nodes/Cars
-	char arr;
+	char **themap;
 	int g;	//cost
 	int f;	//f(x)
 	int h; 	//heuristics
@@ -30,9 +30,9 @@ typedef struct States STATE;
 
 /*          _________________________
 ___________/ FUNCTION PROTOTYPES     \_____________________________________________________________________________*/
-void draw(CAR [], char [dim+3][dim+3][5]);       //Prints the current set-up/condition of the cars
-void draw_cars(CAR [], char [dim+3][dim+3][5]);       //Prints the current set-up/condition of the cars
-void init_board(char themap[dim+3][dim+3][5]);
+void draw(CAR [], char **);       //Prints the current set-up/condition of the cars
+void draw_cars(CAR [], char **);       //Prints the current set-up/condition of the cars
+void init_board(char **);
 char readChar(FILE *);										//Filereading
 //QUEUES
 void PQ_insert(int *PQ, STATE x);
@@ -60,7 +60,7 @@ int main(){
     }
 
 	//draw_initial_board
-    draw(thecars, themap);
+    //draw(thecars, themap);
 
 	STATE *move, start, *list;
 
@@ -69,78 +69,71 @@ int main(){
 
 	list =  (struct States *) malloc(sizeof(STATE));
 	if (list == NULL)   printf("malloc fail");
+	//draw_initial_board
+	//start->themap =  (char *) malloc(sizeof(char));
+	start.themap = malloc(sizeof * start.themap * dim+3);
+	if (start.themap)
+	{
+	  for (i = 0; i < dim+3; i++)
+	  {
+		  start.themap[i] = malloc(sizeof *start.themap[i] * dim+3);
+	  }
+	}
 
 
+    draw(thecars, start.themap);
+
+	//start.arr = themap;
 	return 0;
 }
-
-void insert_move(STATE *move, STATE x){			//Insert an element to the PQ, and find its place.
-	move = realloc(move, sizeof(char)*(cntMV));
-
-	move[cntMV] = x;
-	cntMV++;
-}
-
-/*int PQ_extract(int *PQ, int PQsize){				//Returns the element with the higest priority AND delete it.
-	int temp, n = PQsize;
-	temp = PQ[0];
-    PQ[0] = PQ[PQsize-1];
-    PQsize--;
-	HEAPIFY(PQ, PQsize, 0);
-	return temp;
-}
-
 /*     ___________________
 ______/ DRAWING FUNCTIONS \_______________________________________________________________________________________________________*/
-void draw(CAR thecars[], char themap[dim+3][dim+3][5]){
+void draw(CAR thecars[], char **themap){
 	int i, j;
 
 	init_board(themap);
 	draw_cars(thecars, themap);
 
 	//print the board
-	for(i = 0; i<= dim+2; i++) for(j = 0; j <= dim+2; j++)	printf("%s", themap[j][i]);
+	for(i = 0; i<= dim+2; i++) for(j = 0; j <= dim+2; j++)	printf("%c", themap[j][i]);
 }
-
-void init_board(char themap[dim+3][dim+3][5]){
+void init_board(char **themap){
 	int i, j;
 	//place empty board
 	for(i = 0; i<= dim+1; i++){
 			for(j = 0; j <= dim+1; j++){
 					if(i == 0 || i == dim+1){
-						if (j == 0) strcpy(themap[j][i], "+");
-						else if(j == dim+1) strcpy(themap[j][i], "+");
-						else  strcpy(themap[j][i], "---");
+						if (j == 0 || j == dim+1)  themap[j][i] = '+';
+						else   themap[j][i] = '-';
 					}
-					else if(j == 0)		strcpy(themap[j][i], "|");
-					else if(j == dim+1)	strcpy(themap[j][i], "|");
-					else strcpy(themap[j][i]," . ");
+					else if(j == 0 || j == dim+1)	 themap[j][i] = '|';
+					else  themap[j][i]='.';
 			}
 	}
 	//place spaces and new line
-	for(i = 0; i<dim+3; i++)	strcpy(themap[dim+2][i],"\n");
+	for(i = 0; i<dim+3; i++)	 themap[dim+2][i] = '\n';
 	for(i = 0; i<dim+3; i++){
-				strcpy(themap[i][dim+2]," ");
-				if(i==dim+2)		strcpy(themap[i][dim+2],"\n");
+				themap[i][dim+2] = ' ';
+				if(i==dim+2) themap[i][dim+2] = '\n';
 	}
 }
 
-void draw_cars(CAR thecars[], char themap[dim+3][dim+3][5]){
+void draw_cars(CAR thecars[], char **themap){
 	int i, j;
 	//exit
-	if(thecars[1].dir == 'h') strcpy(themap[(dim+1)][thecars[1].y], " ");
-	else if(thecars[1].dir == 'v') strcpy(themap[thecars[1].x][(dim+1)], " ");
+	if(thecars[1].dir == 'h')  themap[(dim+1)][thecars[1].y] = ' ';
+	else if(thecars[1].dir == 'v')  themap[thecars[1].x][(dim+1)] = ' ';
 	//placing the car accdg to their x & y coordinates and checking their orientations to know which way to expand legth of car accdg to its width
 	for(i = 1; i <= numCars; i++){
 		if(thecars[i].dir == 'v'){
-			strcpy(themap[thecars[i].x][thecars[i].y], " ^ ");
-			for(j = 1; j < thecars[i].width - 1; j++)	strcpy(themap[thecars[i].x][thecars[i].y+j], " | ");
-			strcpy(themap[thecars[i].x][thecars[i].y+(thecars[i].width-1)], " v ");
+			themap[thecars[i].x][thecars[i].y] = '^';
+			for(j = 1; j < thecars[i].width - 1; j++)	 themap[thecars[i].x][thecars[i].y+j] = '|';
+			themap[thecars[i].x][thecars[i].y+(thecars[i].width-1)] = 'v';
 		}
 		else if(thecars[i].dir == 'h'){
-			strcpy(themap[thecars[i].x][thecars[i].y], " < ");
-			for(j = 1; j < thecars[i].width - 1; j++)	strcpy(themap[thecars[i].x+j][thecars[i].y], " = ");
-			strcpy(themap[thecars[i].x+(thecars[i].width-1)][thecars[i].y], " > ");
+			themap[thecars[i].x][thecars[i].y] = '<';
+			for(j = 1; j < thecars[i].width - 1; j++)	 themap[thecars[i].x+j][thecars[i].y] = '=';
+			themap[thecars[i].x+(thecars[i].width-1)][thecars[i].y] = '>';
 		}
 	}
 }
