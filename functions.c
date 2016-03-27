@@ -13,8 +13,9 @@ STATE allocate_map(STATE node){
 void init(STATE node){
 	node.g = 0;
 	node.h = 0;
-	node.f = node.g+node.h;
+	node.f = 0;
 }
+
 
 void addCost(STATE node){
 	node.g += 1;
