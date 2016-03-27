@@ -15,7 +15,7 @@ struct Node{							//Structures for the Cars
 typedef struct Node CAR;
 
 struct States{							//Structures for the Nodes/Cars
-	CAR car[SIZE];
+	CAR thecars[SIZE];
 	char **themap;
 	int g;	//cost
 	int f;	//f(x)

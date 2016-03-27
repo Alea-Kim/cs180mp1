@@ -1,6 +1,6 @@
 #include "declaration.h"
 
-int dim, listCtr, numCars; //+3 for the borders and the newline "\n"
+int dim, listCtr, numCars, x, y; //+3 for the borders and the newline "\n"
 
 //AALL ABOUT THE NODE
 STATE allocate_map(STATE node){
@@ -54,9 +54,11 @@ STATE get_move_lowF(){
 }
 
 int goal(STATE node){
-	printf("for the meant time return 1 muna lagi\nunders construction ung goal()/goal checking ");
-	//if node
-	//check if xy is on the winning x y position na
+	if(node.thecars[1].x == x && node.thecars[1].y == y){
+		printf("ACHIEVED GOAL\n");
+		return 1;
+	}
+	printf(">>UNDER CONSTRUCTION(function.c->int goal())<< Always return 1 for now para no infinite loop\n");
 	return 1;
 }
 

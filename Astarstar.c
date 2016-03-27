@@ -26,12 +26,21 @@ int main(){
         if((numCars = fgetc(fp)) == EOF) numCars = i;
     }
 
+	//GOAL X AND Y POSITION
+	if(thecars[1].dir == 'h') {
+		x = (dim+2) - thecars[1].width;
+		y = thecars[1].y;
+	}
+	else{
+		y = (dim+2) - thecars[1].width;
+		x = thecars[1].x;
+	}
 	//ALLOCATE
 	move =  (struct States *) malloc(sizeof(STATE));	//need to allocate dynamically
 	if (move == NULL)   printf("malloc fail");
 
 	//CREATE START NODE
-	for(i = 1; i < numCars; i++) start.car[i] = thecars[i];
+	for(i = 1; i < numCars; i++) start.thecars[i] = thecars[i];
 	start = allocate_map(start);
 	init(start);
 	//ADDING START NODE TO QUEUE
@@ -40,11 +49,11 @@ int main(){
 	int mika;
 	while(listCtr>0){
 		 current = get_move_lowF();
-		 //draw(thecars, current.themap);
+		 draw(current.thecars, current.themap);
 		 if(goal(current)){
-			 printf("THIS IS IT");
 			 break; // for no goal() == 1 always. Ayusing later
 		 }
+
 		 //GENERATE(current);
 	}
 	return 0;
