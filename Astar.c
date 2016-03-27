@@ -3,9 +3,6 @@
 #include <stdlib.h>
 #define SIZE 100
 
-
-int dim, cntMV, numCars; //+3 for the borders and the newline "\n"
-
 struct Node{							//Structures for the Nodes/Cars
 	int x;
 	int y;
@@ -17,7 +14,7 @@ struct Node{							//Structures for the Nodes/Cars
 typedef struct Node CAR;
 
 struct States{							//Structures for the Nodes/Cars
-	char arr;
+	CAR thecars;
 	int g;	//cost
 	int f;	//f(x)
 	int h; 	//heuristics
@@ -26,7 +23,8 @@ struct States{							//Structures for the Nodes/Cars
 };
 
 typedef struct States STATE;
-
+int dim, cntMV, numCars; //+3 for the borders and the newline "\n"
+//STATE states[SIZE];
 
 /*          _________________________
 ___________/ FUNCTION PROTOTYPES     \_____________________________________________________________________________*/
@@ -37,6 +35,11 @@ char readChar(FILE *);										//Filereading
 //QUEUES
 void PQ_insert(int *PQ, STATE x);
 int PQ_extract(int *PQ, int PQsize);
+
+
+void setCar(STATE start, CAR car){
+	start.thecars = car;
+};
 
 /*     ___________________
 ______/ Main Function     \_______________________________________________________________________________________________________*/
@@ -70,6 +73,7 @@ int main(){
 	list =  (struct States *) malloc(sizeof(STATE));
 	if (list == NULL)   printf("malloc fail");
 
+	//setCar(start, thecars[1]);
 
 	return 0;
 }
