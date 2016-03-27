@@ -1,7 +1,41 @@
 #include "declaration.h"
 
-int dim, cntMV, numCars; //+3 for the borders and the newline "\n"
+int dim, listCtr, numCars; //+3 for the borders and the newline "\n"
 
+//AALL ABOUT THE NODE
+STATE allocate_map(STATE node){
+	int i;
+	node.themap = malloc(sizeof * node.themap * (dim+3));
+	if (node.themap) for (i = 0; i < dim+5; i++) node.themap[i] = malloc(sizeof *node.themap[i] * (dim+3));
+	return node;
+}
+
+void init(STATE node){
+	node.g = 0;
+	node.h = 0;
+}
+
+int get_h(STATE node){
+	return node.h;
+}
+
+void addCost(STATE node){
+	node.g += 1;
+}
+
+int get_g(STATE node){
+	return node.g;
+}
+
+//ALL ABOUT THE LIST/MOVE
+/*void addmove(STATE move){
+	move = (struct States *) realloc(sizeof(STATE)*listCtr, move);	//need to allocate dynamically
+	move[Ctr];
+	listCtr++;
+
+
+}
+*/
 /*     ___________________
 ______/ DRAWING FUNCTIONS \_______________________________________________________________________________________________________*/
 void draw(CAR thecars[], char ** themap){

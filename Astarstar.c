@@ -9,7 +9,7 @@
 ______/ Main Function     \_______________________________________________________________________________________________________*/
 
 int main(){
-	int i, j, cntMV = 0;
+	int i, j, listCtr = 0;
 
 	//file reading
 	FILE *fp;
@@ -26,26 +26,18 @@ int main(){
         if((numCars = fgetc(fp)) == EOF) numCars = i;
     }
 
-	STATE *move, start, *list;							//creates nodes for STATE
+	STATE *move, start;							//creates nodes for STATE
 
+
+	//LIST
 	move =  (struct States *) malloc(sizeof(STATE));	//need to allocate dynamically
 	if (move == NULL)   printf("malloc fail");
 
-	list =  (struct States *) malloc(sizeof(STATE));
-	if (list == NULL)   printf("malloc fail");
+	start = allocate_map(start);
+	init(start);
 
-	start.themap = malloc(sizeof * start.themap * (dim+3));
-	if (start.themap)
-	{
-	  for (i = 0; i < dim+5; i++)
-	  {
-		  start.themap[i] = malloc(sizeof *start.themap[i] * (dim+3));
-	  }
-	}
 
 	//draw_initial_board
 	draw(thecars, start.themap);
-
-	//start.arr = themap;
 	return 0;
 }
