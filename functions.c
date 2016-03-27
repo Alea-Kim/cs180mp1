@@ -33,11 +33,12 @@ int f(STATE node){
 }
 
 //ALL ABOUT THE LIST/MOVE
-void addmove(STATE newmove){
+int addmove(STATE newmove){
 	if(listCtr == 0) move = (struct States *) realloc(move, sizeof(STATE));	//need to allocate dynamically
 	else move = (struct States *) realloc(move, sizeof(STATE)*listCtr);	//need to allocate dynamically
 	move[listCtr] = newmove;
-	listCtr++;
+	listCtr = listCtr + 1;
+	return listCtr;
 }
 
 STATE get_move_lowF(){
@@ -50,6 +51,13 @@ STATE get_move_lowF(){
 		}
 	}
 	return lowNode;
+}
+
+int goal(STATE node){
+	printf("for the meant time return 1 muna lagi\nunders construction ung goal()/goal checking ");
+	//if node
+	//check if xy is on the winning x y position na
+	return 1;
 }
 
 /*     ____________________________________

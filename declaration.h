@@ -1,6 +1,6 @@
 #ifndef HEADER_FILE
 #define HEADER_FILE
-
+#define SIZE 50
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,11 +11,11 @@ struct Node{							//Structures for the Cars
 	int y;
 	char dir;
 	int width;
-  //struct Node *prev;
 };
 typedef struct Node CAR;
 
 struct States{							//Structures for the Nodes/Cars
+	CAR car[SIZE];
 	char **themap;
 	int g;	//cost
 	int f;	//f(x)
@@ -36,7 +36,7 @@ void init(STATE node);
 int h(STATE node);
 void addCost(STATE node);
 int g(STATE node);
-void addmove(STATE newmove);
+int addmove(STATE newmove);
 STATE get_move_lowF();
 
 

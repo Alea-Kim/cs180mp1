@@ -17,7 +17,7 @@ int main(){
     fp = fopen("input.txt", "r");
     if(fp==NULL)	return;
     dim = readChar(fp) - '0';
-    CAR thecars[(dim*dim)/2];
+    CAR thecars[SIZE];
     for(i = 1; (!feof(fp)) ; i++){
         thecars[i].x = (readChar(fp) - '0') + 1;	//because the [0]th j is the left border | <---      |
         thecars[i].y = (readChar(fp) - '0') + 1;	// because the [0]th i is the top border -------------
@@ -31,17 +31,21 @@ int main(){
 	if (move == NULL)   printf("malloc fail");
 
 	//CREATE START NODE
+	for(i = 1; i < numCars; i++) start.car[i] = thecars[i];
 	start = allocate_map(start);
 	init(start);
 	//ADDING START NODE TO QUEUE
-	addmove(start);
-
+	listCtr=addmove(start);
+	//printf("%d", listCtr);
+	int mika;
 	while(listCtr>0){
 		 current = get_move_lowF();
+		 //draw(thecars, current.themap);
+		 if(goal(current)){
+			 printf("THIS IS IT");
+			 break; // for no goal() == 1 always. Ayusing later
+		 }
 		 //GENERATE(current);
 	}
-
-	//draw_initial_board
-	draw(thecars, start.themap);
 	return 0;
 }
