@@ -48,18 +48,14 @@ int main(){
 		 current = get_move_lowF();
 		 draw(current.thecars, current.themap);
 		 //FINAL: if(goal(current))	 break; // for no goal() == 1 always. Ayusing later
-		//GENERATE(CURRENT)
 		for(j = 1; j < numCars; j++){
-			mallocate(successors); //i'free later
+
 			if(current.thecars[j].dir='h'){
 				//RIGHT
 				newX = right(current, j);
 				if(newX > current.thecars[j].x){
 					newmove = set_xy(current, j, newX, current.thecars[j].y);
 					draw(newmove.thecars, newmove.themap);
-					//addsuccessor(newmove);
-					//addmove(set_xy());
-					//addmove(current.thecars[i].x, current.thecars[i].y);
 					exit(0);
 				}
 				else {
