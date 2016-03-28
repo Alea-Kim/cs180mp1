@@ -33,12 +33,28 @@ int f(STATE node){
 	return g(node)+h(node);
 }
 
+void mallocate(STATE *node){
+	node = (struct States *) malloc(sizeof(STATE));	//need to allocate dynamically
+	if (node == NULL)   printf("malloc fail\n");
+}
+
+
+
+STATE set_xy(STATE node, int i, int newX, int newY){
+	STATE temp = node;
+	//printf("%d %d\n", newX, newY);
+	temp.thecars[i].x = newX;
+	temp.thecars[i].y = newY;
+	return temp;
+}
+
 //ALL ABOUT THE LIST/MOVE
 int addmove(STATE newmove){
 	if(listCtr == 0) move = (struct States *) realloc(move, sizeof(STATE));	//need to allocate dynamically
 	else move = (struct States *) realloc(move, sizeof(STATE)*listCtr);	//need to allocate dynamically
 	move[listCtr] = newmove;
 	listCtr = listCtr + 1;
+	//delete(newmove);
 	return listCtr;
 }
 
@@ -62,6 +78,28 @@ int goal(STATE node){
 	printf(">>UNDER CONSTRUCTION(function.c->int goal())<< Always return 1 for now para no infinite loop\n");
 	return 1;
 }
+
+
+int right(STATE node, int i){
+	int j, x, wid, allowed;
+	wid = node.thecars[i].width;
+	allowed = dim - wid;
+	j = 1;
+	x = node.thecars[i].x;
+	if(node.thecars[i].x+wid-1 == dim)	return 0;	//dim or dim + 1?? gaaah try both if error
+
+	while(j <= dim-node.thecars[i].x-wid+1){
+		//printf("C: %c an j: %d <= %d \n", node.themap[node.thecars[i].x+j][node.thecars[i].y], j, dim-node.thecars[i].x-wid+1);
+		if(node.themap[node.thecars[i].x+j][node.thecars[i].y] == '.' ||
+		(node.themap[node.thecars[i].x+j][node.thecars[i].y] == '>' && node.themap[node.thecars[i].x+j+1][node.thecars[i].y] =='.') ||
+		(node.themap[node.thecars[i].x+j][node.thecars[i].y] == '=' && (node.themap[node.thecars[i].x+j+1][node.thecars[i].y] == '>' || node.themap[node.thecars[i].x+j][node.thecars[i].y] == '='))) x += 1;
+		else return x;
+		j+=1;
+	}
+
+	return x;
+}
+
 
 /*     ____________________________________
 ______/ DRAWING FUNCTIONS  AND FILE READING\_______________________________________________________________________________________________________*/

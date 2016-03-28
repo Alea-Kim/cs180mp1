@@ -16,7 +16,12 @@
 15	        Remove occurrences of node_successor from OPEN and CLOSED
 16	        Set the parent of node_successor to node_current
 17	        Set h to be the estimated distance to node_goal (Using the heuristic function)
-18	         Add node_successor to the OPEN list
+18	        Add node_successor to the OPEN list
 19	    }
 20	    Add node_current to the CLOSED list
 21	}
+
+
+[] right to down (4)
+[] list for the node_successor
+[]

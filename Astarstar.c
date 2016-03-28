@@ -9,8 +9,8 @@
 ______/ Main Function     \_______________________________________________________________________________________________________*/
 
 int main(){
-	int i, j, listCtr = 0;
-	STATE start, newmove, current;
+	int i, j, listCtr = 0, newX = 0;
+	STATE start, newmove, current, temp;
 
 	//file reading
 	FILE *fp;
@@ -28,33 +28,46 @@ int main(){
 
 	//GOAL X AND Y POSITION
 	if(thecars[1].dir == 'h') {
-		x = (dim+2) - thecars[1].width;
+		x = dim+2 - thecars[1].width;
 		y = thecars[1].y;
 	}
 	else{
-		y = (dim+2) - thecars[1].width;
+		y = dim+2 - thecars[1].width;
 		x = thecars[1].x;
 	}
 	//ALLOCATE
-	move =  (struct States *) malloc(sizeof(STATE));	//need to allocate dynamically
-	if (move == NULL)   printf("malloc fail");
-
+	mallocate(move);
+	int mika;
 	//CREATE START NODE
 	for(i = 1; i < numCars; i++) start.thecars[i] = thecars[i];
 	start = allocate_map(start);
 	init(start);
 	//ADDING START NODE TO QUEUE
 	listCtr=addmove(start);
-	//printf("%d", listCtr);
-	int mika;
 	while(listCtr>0){
 		 current = get_move_lowF();
 		 draw(current.thecars, current.themap);
-		 if(goal(current)){
-			 break; // for no goal() == 1 always. Ayusing later
-		 }
-
-		 //GENERATE(current);
+		 //FINAL: if(goal(current))	 break; // for no goal() == 1 always. Ayusing later
+		//GENERATE(CURRENT)
+		for(j = 1; j < numCars; j++){
+			mallocate(successors); //i'free later
+			if(current.thecars[j].dir='h'){
+				//RIGHT
+				newX = right(current, j);
+				if(newX > current.thecars[j].x){
+					newmove = set_xy(current, j, newX, current.thecars[j].y);
+					draw(newmove.thecars, newmove.themap);
+					//addsuccessor(newmove);
+					//addmove(set_xy());
+					//addmove(current.thecars[i].x, current.thecars[i].y);
+					exit(0);
+				}
+				else {
+					printf("car[1]->Right move: NOT POSSIBLE\n");
+					exit(0);
+				}
+			}
+		}
 	}
 	return 0;
 }
