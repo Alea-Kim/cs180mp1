@@ -40,7 +40,7 @@ void printMap(STATE node);
 
 STATE allocate_map(STATE node);
 void init(STATE *node);
-int h(STATE node, int ch);
+int h(STATE node, int ch, int i);
 void addCost(STATE node);
 int g(STATE node);
 int addmove(STATE newmove);

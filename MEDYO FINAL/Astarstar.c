@@ -84,7 +84,7 @@ int main(){
 						printf("NOT IN LIST PA (Moves++: %d)\n", listCtr);
 						newmove.parent = &current;
 						//current.h = h(current);
-						newmove.h = h(newmove, ch);
+						newmove.h = h(newmove, ch, j);
 						newmove.g = current.g + 1;
 						newmove.f = newmove.g + newmove.h;
 						listCtr = addmove(newmove);
@@ -121,7 +121,7 @@ int main(){
 						printf("NOT IN LIST PA (Moves++: %d)\n", listCtr);
 						newmove.parent = &current;
 						//current.h = h(current);
-						newmove.h = h(newmove, ch);
+						newmove.h = h(newmove, ch, j);
 						newmove.g = current.g + 1;
 						newmove.f = newmove.g + newmove.h;
 						listCtr = addmove(newmove);
@@ -163,7 +163,7 @@ int main(){
 						printf("NOT IN LIST PA (Moves++: %d)\n", listCtr);
 						newmove.parent = &current;
 						//current.h = h(current);
-						newmove.h = h(newmove, ch)
+						newmove.h = h(newmove, ch, j);
 						newmove.g = current.g + 1;
 						newmove.f = newmove.g + newmove.h;
 						listCtr = addmove(newmove);
@@ -200,7 +200,7 @@ int main(){
 						printf("NOT IN LIST PA (Moves++: %d)\n", listCtr);
 						newmove.parent = &current;
 						//current.h = h(current);
-						newmove.h = h(newmove, ch);
+						newmove.h = h(newmove, ch, j);
 						newmove.g = current.g + 1;
 						newmove.f = newmove.g + newmove.h;
 						listCtr = addmove(newmove);

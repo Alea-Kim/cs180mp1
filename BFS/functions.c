@@ -41,64 +41,8 @@ void init(STATE *node){
 	node->parent = NULL;
 }
 
-int h(STATE node, int ch, i){
-	int h =0,p;
-	if(ch == 0) return 0;
-	else if(ch == 1){
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		int k;
-		char themap[dim+3][dim+3];
-		//INIT BOARD
-		for(k = 0; k<= dim+1; k++){
-				for(j = 0; j <= dim+1; j++){
-						if(k == 0 || k == dim+1){
-							if (j == 0 || j == dim+1)   themap[j][k] = '+';
-							else    themap[j][k] = '-';
-						}
-						else if(j == 0 || j == dim+1)	  themap[j][k] = '|';
-						else  themap[j][k] ='.';
-				}
-		}
-		//place spaces and new line
-		for(k = 0; k<dim+3; k++)	  themap[dim+2][k] = '\n';
-		for(k = 0; k<dim+3; k++){
-			 themap[k][dim+2] = ' ';
-			if(k==dim+2)  themap[k][dim+2] = '\n';
-			if(node.thecars[1].dir == 'h')    themap[(dim+1)][node.thecars[1].y] = ' ';
-			else if(node.thecars[1].dir == 'v')    themap[node.thecars[1].x][(dim+1)] = ' ';
-		}
-
-		//placing the car accdg to their x & y coordinates and checking their orientations to know which way to expand legth of car accdg to its width
-		for(k = 1; k <= numCars; k++){
-			if(node.thecars[k].dir == 'v'){
-				  themap[node.thecars[k].x][node.thecars[k].y] = '^';
-				for(j = 1; j < node.thecars[k].width - 1; j++)	   themap[node.thecars[k].x][node.thecars[k].y+j] = '|';
-				  themap[node.thecars[k].x][node.thecars[k].y+(node.thecars[k].width-1)] = 'v';
-			}
-			else if(node.thecars[k].dir == 'h'){
-				  themap[node.thecars[k].x][node.thecars[k].y] = '<';
-				for(j = 1; j < node.thecars[k].width - 1; j++)	   themap[node.thecars[k].x+j][node.thecars[k].y] = '=';
-				  themap[node.thecars[k].x+(node.thecars[k].width-1)][node.thecars[k].y] = '>';
-			}
-		}
-		////////////////////////////////////////////////////////////////////////////////////////////////////////
-		if(node.thecars[i].dir == 'h'){
-			for(p = 1; p <= dim - node.thecars[i].x+node.thecars[i].width-1){
-				if( themap[node.thecars[i].x+node.thecars[i].width-1+p][node.thecars[i].y] != '.'){
-					h = h + 1;
-				}
-
-			}
-		}
-		else{
-			for(p = 1; p <= dim - node.thecars[i].y+node.thecars[i].width-1){
-				if( themap[node.thecars[i].x][node.thecars[i].y+node.thecars[i].width-1+p] != '.'){
-					h = h + 1;
-				}
-			}
-		}
-	}
-
+int h(STATE node){
+	return node.h;
 }
 
 int g(STATE node){
@@ -142,6 +86,7 @@ int* remove (int* array, int sizeofArray, int indexremove){
 }*/
 
 //ALL ABOUT THE LIST/MOVE
+
 int removeNode(STATE node){
 	int i, m, ay;
 	STATE temp;

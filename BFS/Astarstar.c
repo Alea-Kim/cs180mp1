@@ -9,13 +9,10 @@
 ______/ Main Function     \_______________________________________________________________________________________________________*/
 
 int main(){
-	int i, j, m, n, k, ay, ch, listCtr = 0, newX = 0, newY=0, inList;
+	int i, j, m, n, k, ay,  listCtr = 0, newX = 0, newY=0, inList;
 	STATE start, newmove, current, temp;
 	bottom = 0;
 	numExp = 0;
-
-	printf("Enter Chosen Heuristics: (0,1,2) \n");
-	scanf("%d", &ch);
 	//file reading
 	FILE *fp;
     fp = fopen("input.txt", "r");
@@ -84,7 +81,7 @@ int main(){
 						printf("NOT IN LIST PA (Moves++: %d)\n", listCtr);
 						newmove.parent = &current;
 						//current.h = h(current);
-						newmove.h = h(newmove, ch);
+						newmove.h = 0;
 						newmove.g = current.g + 1;
 						newmove.f = newmove.g + newmove.h;
 						listCtr = addmove(newmove);
@@ -121,7 +118,7 @@ int main(){
 						printf("NOT IN LIST PA (Moves++: %d)\n", listCtr);
 						newmove.parent = &current;
 						//current.h = h(current);
-						newmove.h = h(newmove, ch);
+						newmove.h = 0;
 						newmove.g = current.g + 1;
 						newmove.f = newmove.g + newmove.h;
 						listCtr = addmove(newmove);
@@ -163,7 +160,7 @@ int main(){
 						printf("NOT IN LIST PA (Moves++: %d)\n", listCtr);
 						newmove.parent = &current;
 						//current.h = h(current);
-						newmove.h = h(newmove, ch)
+						newmove.h = 0;
 						newmove.g = current.g + 1;
 						newmove.f = newmove.g + newmove.h;
 						listCtr = addmove(newmove);
@@ -200,7 +197,7 @@ int main(){
 						printf("NOT IN LIST PA (Moves++: %d)\n", listCtr);
 						newmove.parent = &current;
 						//current.h = h(current);
-						newmove.h = h(newmove, ch);
+						newmove.h = 0;
 						newmove.g = current.g + 1;
 						newmove.f = newmove.g + newmove.h;
 						listCtr = addmove(newmove);

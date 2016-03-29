@@ -1,38 +1,6 @@
 #include "declaration.h"
 
 int dim, listCtr, numExp, numCars, bottom, viCtr, x, y; //+3 for the borders and the newline "\n"
-/*
-///LINKED-STACK IMPLEMENTATIONS
-void create(){
-	top = NULL;
-}
-void push(STATE info){
-	if(top==NULL){												//VERY FIRST PUSH:
-		top = (struct NodeStack *) malloc(1*sizeof(struct NodeStack));	//so top will personally receive its first information
-		top->prev = NULL;
-		top->data = info;
-	}
-	else{
-		cur = (struct NodeStack *) malloc(1*sizeof(struct NodeStack));	//NOT THE FIRST PUSH:
-		cur->prev = top;										//so a cur will temporarily hold the top as its previous,
-		cur->data = info;										//and it will take the new information.
-		top = cur;												//Then, top will later on take everything from cur
-	}
-}
-void pop(){														//the cur will hold the prev node, the next top element,
-	if(top==NULL)	 return;									//then free/delete the old top node.
-	else{
-		cur=top->prev;
-		free(top);
-		top = cur;
-	}
-}
-
-STATE peek(){
-	return top->data;											//Returns the top value
-}
-
-*/
 //AALL ABOUT THE NODE
 void init(STATE *node){
 	node->g = 0;
@@ -41,12 +9,12 @@ void init(STATE *node){
 	node->parent = NULL;
 }
 
-int h(STATE node, int ch, i){
+int h(STATE node, int ch, int i){
 	int h =0,p;
 	if(ch == 0) return 0;
 	else if(ch == 1){
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		int k;
+		int k, j;
 		char themap[dim+3][dim+3];
 		//INIT BOARD
 		for(k = 0; k<= dim+1; k++){
@@ -83,7 +51,7 @@ int h(STATE node, int ch, i){
 		}
 		////////////////////////////////////////////////////////////////////////////////////////////////////////
 		if(node.thecars[i].dir == 'h'){
-			for(p = 1; p <= dim - node.thecars[i].x+node.thecars[i].width-1){
+			for(p = 1; p <= dim - node.thecars[i].x+node.thecars[i].width-1; p++){
 				if( themap[node.thecars[i].x+node.thecars[i].width-1+p][node.thecars[i].y] != '.'){
 					h = h + 1;
 				}
@@ -91,7 +59,7 @@ int h(STATE node, int ch, i){
 			}
 		}
 		else{
-			for(p = 1; p <= dim - node.thecars[i].y+node.thecars[i].width-1){
+			for(p = 1; p <= dim - node.thecars[i].y+node.thecars[i].width-1; p++){
 				if( themap[node.thecars[i].x][node.thecars[i].y+node.thecars[i].width-1+p] != '.'){
 					h = h + 1;
 				}
@@ -107,7 +75,7 @@ int g(STATE node){
 
 int f(STATE node){
 	//printf("g: %d, h: %d\n", g(node), h(node));
-	return g(node)+h(node);
+	return g(node)+node.h;
 }
 
 void mallocate(STATE *node){
