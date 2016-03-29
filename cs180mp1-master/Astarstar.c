@@ -9,8 +9,8 @@
 ______/ Main Function     \_______________________________________________________________________________________________________*/
 
 int main(){
-	int i, j, listCtr = 0, newX = 0, newY=0;
-	STATE start, newmove, current, temp;
+	int i, j, m, n, k, ay,  listCtr = 0, newX = 0, newY=0, inList;
+	STATE start, newmove, current, *ptr, temp;
 
 	//file reading
 	FILE *fp;
@@ -46,46 +46,198 @@ int main(){
 	listCtr=addmove(start);
 	while(listCtr>0){
 		 current = get_move_lowF();
-		 draw(current.thecars, current.themap);
 		 //FINAL: if(goal(current))	 break; // for no goal() == 1 always. Ayusing later
 
-
 		for(j = 1; j < numCars; j++){
-			if(current.thecars[j].dir='h'){
+			if(current.thecars[j].dir=='h'){
+				current.themap = draw(current);
+		   		 printf("START MAP:\n");
+		   		 printMap(current);
 				//RIGHT
 				newX = right(current, j);
 				if(newX > current.thecars[j].x){
 					newmove = set_xy(current, j, newX, current.thecars[j].y);
-					printf("moved right:\n");
-					draw(newmove.thecars, newmove.themap);
+
+					newmove.themap = draw(newmove);
+					printf("MOVED RIGHT:\n");
+					printMap(newmove);
+
+					newmove.g = current.g+1;
+					newmove.h = 0;
+					inList = 0;
+
+					//Check if newmove in move[i]/open list
+					for(i = 0; i < listCtr; i++){
+						for(m = 0; m<= dim+2; m++){
+							//printf("C: [%d][%d] %c vs. %c \n", n, m, move[i].themap[n][m], newmove.themap[n][m]);
+							//printf("C: [%d] %d vs. %d \n", m, move[i].thecars[m].x, newmove.thecars[m].x);
+							if (newmove.thecars[m].x != move[i].thecars[m].x || newmove.thecars[m].y != move[i].thecars[m].y) {
+									inList = 0;
+									break;
+							}
+							else inList = 1;
+						}
+					}
+
+					//If Not In list
+					if(inList == 0){
+						printf("NOT IN LIST PA\n");
+						ptr = &current;
+						newmove.parent = ptr;
+						inList = 0;
+						listCtr = addmove(newmove);
+						printf("Moves-> %d\n", listCtr);
+					}
+					else printf("NASA LIST NA\n");
 				}
 				//LEFT
 				newX = left(current, j);
 				if(newX < current.thecars[j].x){
 					newmove = set_xy(current, j, newX, current.thecars[j].y);
-					printf("moved left:\n");	
-					draw(newmove.thecars, newmove.themap);
-				}	
-			}
 
-			else if(current.thecars[j].dir='v'){
+					newmove.themap = draw(newmove);
+					printf("MOVED LEFT(car[%d]):\n", j);
+					printMap(newmove);
+
+					newmove.g = current.g+1;
+					newmove.h = 0;
+					inList = 0;
+
+					//Check if newmove in move[i]/open list
+					for(i = 0; i < listCtr; i++){
+						for(m = 0; m<= dim+2; m++){
+							if (newmove.thecars[m].x != move[i].thecars[m].x || newmove.thecars[m].y != move[i].thecars[m].y) {
+									inList = 0;
+									break;
+							}
+							else inList = 1;
+						}
+					}
+
+					//If Not In list
+					if(inList == 0){
+						printf("NOT IN LIST PA\n");
+
+						//CHECK HERE
+						ptr = &current;
+						newmove.parent = ptr;
+						inList = 0;
+						listCtr = addmove(newmove);
+						printf("Moves-> %d\n", listCtr);
+					}
+					else printf("NASA LIST NA\n");
+
+				}
+			}
+			else if(current.thecars[j].dir=='v'){
+				//printf("car[%d] is vertical \n\n", j);
+				 current.themap = draw(current);
+		   		 printf("START MAP:\n");
+		   		 printMap(current);
+
 				//UP
 				newY = up(current, j);
 				if(newY < current.thecars[j].y){
 					newmove = set_xy(current, j, current.thecars[j].x, newY);
-					printf("moved up:\n");	
-					draw(newmove.thecars, newmove.themap);
+
+					newmove.themap = draw(newmove);
+					printf("MOVED UP:\n");
+					printMap(newmove);
+
+					newmove.g = current.g+1;
+					newmove.h = 0;
+					inList = 0;
+
+					//Check if newmove in move[i]/open list
+					for(i = 0; i < listCtr; i++){
+						for(m = 0; m<= dim+2; m++){
+							if (newmove.thecars[m].x != move[i].thecars[m].x || newmove.thecars[m].y != move[i].thecars[m].y) {
+									inList = 0;
+									break;
+							}
+							else inList = 1;
+						}
+					}
+
+					//If Not In list
+					if(inList == 0){
+						printf("NOT IN LIST PA\n");
+
+						//CHECK HERE
+						ptr = &current;
+						newmove.parent = ptr;
+						inList = 0;
+						listCtr = addmove(newmove);
+						printf("Moves-> %d\n", listCtr);
+					}
+					else printf("NASA LIST NA\n");
 				}
+
 				//DOWN
 				newY = down(current, j);
 				if(newY > current.thecars[j].y){
+
 					newmove = set_xy(current, j, current.thecars[j].x, newY);
-					printf("moved down:\n");	
-					draw(newmove.thecars, newmove.themap);
+					printf("AFTER setXY\n");
+					for(i = 0; i<= dim+2; i++) for(k = 0; k <= dim+2; k++)	printf(" %c",  newmove.themap[k][i]);
+
+					newmove.themap = draw(newmove);
+					printf("MOVED DOWN:\n");
+					printMap(newmove);
+					//scanf("%d", &mika);
+
+					newmove.g = current.g+1;
+					newmove.h = 0;
+					inList = 0;
+
+					//Check if newmove in move[i]/open list
+					for(i = 0; i < listCtr; i++){
+						for(m = 0; m<= dim+2; m++){
+							if (newmove.thecars[m].x != move[i].thecars[m].x || newmove.thecars[m].y != move[i].thecars[m].y) {
+									inList = 0;
+									break;
+							}
+							else inList = 1;
+						}
+					}
+
+					//If Not In list
+					if(inList == 0){
+						printf("NOT IN LIST PA\n");
+
+						//CHECK HERE
+						ptr = &current;
+						newmove.parent = ptr;
+						inList = 0;
+						listCtr = addmove(newmove);
+						printf("Moves-> %d\n", listCtr);
+					}
+					else {
+						//Compare cost/BFS to
+						for(i = 0; i < listCtr; i++){
+							for(m = 0; m<= dim+2; m++){
+								if (newmove.thecars[m].x != move[i].thecars[m].x || newmove.thecars[m].y != move[i].thecars[m].y) {
+										break;
+								}
+								else ay = i;
+							}
+						}
+
+						if(move[ay].f < newmove.f )	continue;	//ignore successor
+						//remove occcurences
+						ptr = &current;
+						newmove.parent = ptr;
+						inList = 0;
+						listCtr = addmove(newmove);
+						printf("Moves-> %d\n", listCtr);
+
+					} //printf("NASA LIST NA\n");
 				}
-			}	
-			exit(0);
+			}
+			scanf("%d", &mika);
 		}
+		//addVisited(move, i);
+
 	}
 	return 0;
 }
